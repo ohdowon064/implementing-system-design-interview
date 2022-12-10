@@ -1,6 +1,11 @@
-from typing import NewType
+from typing import NewType, NamedTuple
 
 from proxy.rate_limiter.token_bucket import TokenBucket
 
-RequestPath = NewType("RequestPath", str)
-endpoint_rate_limiter: dict[RequestPath, TokenBucket] = {}
+
+class RequestType(NamedTuple):
+    path: str
+    method: str
+
+
+endpoint_rate_limiter: dict[RequestType, TokenBucket] = {}
