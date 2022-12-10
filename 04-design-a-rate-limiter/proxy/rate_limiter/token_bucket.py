@@ -6,7 +6,9 @@ from proxy.config import settings
 class TokenBucket:
     def __init__(self):
         self._capacity = settings.capacity
-        self._number_of_refilled_tokens_per_second = settings.number_of_refilled_tokens_per_second
+        self._refill_period = settings.refill_period
+        self._number_of_refilled_tokens_per_period = settings.number_of_refilled_tokens_per_period
+        self._number_of_refilled_tokens_per_second = self._number_of_refilled_tokens_per_period // self._refill_period
         self._tokens = self._capacity
         self._last_refill_time = int(time.time())
 
@@ -19,6 +21,15 @@ class TokenBucket:
             self._tokens -= tokens
             return True
         return False
+
+    def get_remaining_tokens(self):
+        return self._tokens
+
+    def get_capacity(self):
+        return self._capacity
+
+    def get_refill_period(self):
+        return self._refill_period
 
     def _refill(self):
         now = int(time.time())
