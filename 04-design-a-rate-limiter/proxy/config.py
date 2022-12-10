@@ -1,13 +1,16 @@
+from dotenv import load_dotenv
 from pydantic import BaseSettings
+
+load_dotenv()
 
 
 class Settings(BaseSettings):
-    api_server_host: str = "0.0.0.0"
-    api_server_port: int = 9999
+    api_server_host: str
+    api_server_port: int
 
-    capacity: int = 5
-    refill_period: int = 5
-    number_of_refilled_tokens_per_period: int = 1
+    capacity: int
+    refill_period: int
+    number_of_refilled_tokens_per_period: int
 
 
 settings = Settings()

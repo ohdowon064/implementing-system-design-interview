@@ -10,6 +10,7 @@ packages = [{include = "04_design_a_rate_limiter"}]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.88.0"}
 locust = "^2.13.2"
+python-dotenv = "^0.21.0"
 
 
 [build-system]
