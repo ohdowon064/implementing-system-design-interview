@@ -1,6 +1,20 @@
+import logging
+
 from fastapi import FastAPI
+from requests import Request
+from starlette.middleware.base import RequestResponseEndpoint
+
+logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+
+@app.middleware("http")
+async def logging_middleware(request: Request, call_next: RequestResponseEndpoint):
+    response = await call_next(request)
+    logger.debug(f"{request.method} {request.url.path} {response.status_code}")
+    return response
 
 
 @app.post("/posts")
