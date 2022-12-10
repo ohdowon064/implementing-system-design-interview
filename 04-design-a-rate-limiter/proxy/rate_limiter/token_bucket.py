@@ -22,16 +22,16 @@ class TokenBucket:
             return True
         return False
 
-    def get_remaining_tokens(self):
+    def get_remaining_tokens(self) -> int:
         return self._tokens
 
-    def get_capacity(self):
+    def get_capacity(self) -> int:
         return self._capacity
 
-    def get_refill_period(self):
+    def get_refill_period(self) -> int:
         return self._refill_period
 
-    def _refill(self):
+    def _refill(self) -> None:
         now = int(time.time())
         elapsed = now - self._last_refill_time
         self._last_refill_time = now
