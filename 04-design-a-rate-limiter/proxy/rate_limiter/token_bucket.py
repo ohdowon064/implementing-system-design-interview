@@ -40,3 +40,6 @@ class TokenBucket:
         if elapsed >= self._refill_period:
             self._last_refill_time = now
             self._tokens = min(self._capacity, self._tokens + self._get_refilled_tokens(elapsed))
+
+    def __repr__(self):
+        return self.__dict__.__repr__()
