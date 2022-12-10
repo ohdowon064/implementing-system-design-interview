@@ -1,3 +1,6 @@
+from typing import NewType
+
 from proxy.rate_limiter.token_bucket import TokenBucket
 
-rate_limiter = TokenBucket()
+RequestPath = NewType("RequestPath", str)
+endpoint_rate_limiter: dict[RequestPath, TokenBucket] = {}
