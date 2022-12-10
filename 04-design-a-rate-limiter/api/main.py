@@ -3,9 +3,24 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.get("/resource")
-async def get_resource():
-    return {"message": "OK"}
+@app.post("/posts")
+async def create_post():
+    return {"message": "post created"}
+
+
+@app.get("/posts")
+async def get_post_list():
+    return {"message": "post list"}
+
+
+@app.post("/friends")
+async def add_friend():
+    return {"message": "friend added"}
+
+
+@app.put("/like")
+async def like_post():
+    return {"message": "post liked"}
 
 
 if __name__ == "__main__":
