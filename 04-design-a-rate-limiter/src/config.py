@@ -1,20 +1,9 @@
 from pydantic import BaseSettings
 
 
-class RedisSettings(BaseSettings):
-    host: str = "localhost"
-    port: int = 6379
-    db: int = 0
-
-    class Config:
-        env_prefix = "redis_"
-
-
 class Settings(BaseSettings):
-    redis = RedisSettings()
-
-    class Config:
-        env_file = ".env"
+    capacity: int = 1000
+    number_of_refilled_tokens_per_second: int = 10
 
 
 settings = Settings()
