@@ -3,10 +3,12 @@ from httpx import AsyncClient
 from fastapi import Request, FastAPI
 from fastapi.responses import StreamingResponse
 from starlette.background import BackgroundTask
+from starlette.middleware import Middleware
 
 from proxy.config import settings
+from proxy.middleware.rate_limiter import RateLimitMiddleware
 
-app = FastAPI()
+app = FastAPI(middleware=[Middleware(RateLimitMiddleware)])
 http_client = AsyncClient(base_url=f"http://{settings.api_server_host}:{settings.api_server_port}/")
 
 
