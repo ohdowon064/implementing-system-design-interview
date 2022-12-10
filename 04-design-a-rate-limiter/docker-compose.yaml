@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: ./proxy.Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - apinet
+
+  api:
+    build:
+      context: .
+      dockerfile: ./api.Dockerfile
+    depends_on:
+      - proxy
+    networks:
+      - apinet
+
+networks:
+  apinet:
+    driver: bridge
