@@ -1,4 +1,7 @@
-# 실행
+# 처리율 제한 프록시
+토큰버킷 알고리즘 기반의 처리율 제한역할을 수행하는 프록시 서버입니다.
+
+## 실행
 ```bash
 $ poetry shell
 $ poetry install
@@ -6,12 +9,12 @@ $ uvicorn proxy.main:app --port 8000 --reload
 $ uvicorn api.main:app --port 9999 --reload
 ```
 
-# 테스트
+## 테스트
 ```bash
 $ locust -f locustfile.py --host http://localhost:8000 --users 10 --spawn-rate 1 --run-time 1m
 ```
 
-# 다이어그램
+## 다이어그램
 ```mermaid
 sequenceDiagram
     participant c as Client
@@ -30,7 +33,7 @@ sequenceDiagram
     end
 ```
 
-# 참고
+## 참고
 FastAPI에 대해서 스로틀링을 지원하는 다양한 패키지가 존재한다.
 ### 관련패키지
 - https://github.com/laurentS/slowapi
