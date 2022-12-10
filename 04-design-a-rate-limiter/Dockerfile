@@ -12,7 +12,7 @@ COPY . .
 RUN apt-get update && apt-get install -y openbabel && rm -rf /var/lib/apt/lists/*
 
 COPY --from=requirements-stage /code/requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 EXPOSE 8000
 
