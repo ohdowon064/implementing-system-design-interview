@@ -4,8 +4,10 @@ from fastapi import Request, FastAPI
 from fastapi.responses import StreamingResponse
 from starlette.background import BackgroundTask
 
+from proxy.config import settings
+
 app = FastAPI()
-http_client = AsyncClient(base_url="http://0.0.0.0:9999/")
+http_client = AsyncClient(base_url=f"http://{settings.api_server_host}:{settings.api_server_port}/")
 
 
 async def _reverse_proxy(request: Request):
