@@ -1,6 +1,6 @@
-from typing import NewType, NamedTuple
+from typing import NamedTuple
 
-from proxy.rate_limiter.token_bucket import TokenBucket
+from chapter_04_design_a_rate_limiter.proxy.rate_limiter.token_bucket import TokenBucket
 
 
 class RequestType(NamedTuple):
