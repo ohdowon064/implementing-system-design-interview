@@ -1,6 +1,6 @@
 import time
 
-from proxy.config import settings
+from chapter_04_design_a_rate_limiter.proxy.config import settings
 
 
 class TokenBucket:

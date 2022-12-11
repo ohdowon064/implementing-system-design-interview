@@ -5,7 +5,8 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import Response
 
-from proxy.rate_limiter import endpoint_rate_limiter, TokenBucket, RequestType
+from chapter_04_design_a_rate_limiter.proxy.rate_limiter import RequestType, endpoint_rate_limiter
+from chapter_04_design_a_rate_limiter.proxy.rate_limiter.token_bucket import TokenBucket
 
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.DEBUG)
 logging.getLogger("httpx").setLevel(logging.CRITICAL)
