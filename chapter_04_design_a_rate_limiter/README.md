@@ -11,7 +11,7 @@ $ uvicorn api.main:app --port 9999 --reload
 
 ## 테스트
 ```bash
-$ locust -f locustfile.py --host http://localhost:8000 --users 10 --spawn-rate 1 --run-time 1m
+$ locust -f locustfile.py --host http://localhost:8000 --users 10 --spawn-rate 10 --run-time 1m
 ```
 
 ## 다이어그램
