@@ -24,7 +24,7 @@ sequenceDiagram
     c->>p: Request
     p->>prl: 토큰버켓 알고리즘 적용
     alt 해당 요청에 대한 토큰버켓 없음
-    prl->>prl: 요청에 대한 토큰버켓 리미터 생성
+    prl->>prl: 요청(API 패스와 HTTP 메서드 튜플)에 대한 토큰버켓 리미터 생성
     end
     alt 토큰 없음
     prl-->>p: 토큰 없음
