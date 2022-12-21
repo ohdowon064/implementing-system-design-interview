@@ -1,4 +1,4 @@
-module example.com/hello
+module example.com/consistent-hashing
 
 go 1.17
 
