@@ -33,6 +33,7 @@ class CacheServer(Node):
     def __init__(self):
         self.id = time.time_ns()
         self.collection: dict[Key, Value] = {}
+        self._MAX_SIZE = 10
 
     def get(self, key: Key) -> Value:
         value = self.collection.get(key, None)
@@ -41,7 +42,7 @@ class CacheServer(Node):
         return value
 
     def set(self, key: Key, value: Value) -> None:
-        if len(self.collection) > 10:
+        if len(self.collection) >= self._MAX_SIZE:
             raise CacheIsFullException("Cache is full")
 
         self.collection[key] = value
@@ -80,8 +81,10 @@ class ConsistentHash:
 
     def _get_node_by_key_hash(self, key_hash: KeyHash) -> Node:
         key_hashes = sorted(self.ring.keys())
+
         if key_hash > key_hashes[-1]:
             return self.ring[key_hashes[0]]
+
         for _key_hash in key_hashes:
             if key_hash <= _key_hash:
                 return self.ring[_key_hash]

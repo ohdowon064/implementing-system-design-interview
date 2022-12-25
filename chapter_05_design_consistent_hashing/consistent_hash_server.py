@@ -5,8 +5,13 @@ from starlette import status
 from starlette.requests import Request
 from starlette.responses import Response
 
-from consistent_hash import (CacheIsFullException, CacheServer, ConsistentHash,
-                             Key, KeyDoesNotExistException, Value)
+from consistent_hash import (
+    CacheIsFullException,
+    CacheServer,
+    ConsistentHash,
+    Key,
+    KeyDoesNotExistException,
+)
 
 app = FastAPI()
 
@@ -58,7 +63,7 @@ async def write(
     consistent_hash: ConsistentHash = Depends(get_consistent_hash),
 ):
     try:
-        cache_server.set(Key(key), Value(request_body.value))
+        cache_server.set(Key(key), request_body.value)
     except CacheIsFullException:
         new_cache_server = CacheServer()
         consistent_hash.add_node(new_cache_server)
@@ -71,4 +76,4 @@ async def write(
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("consistent_hash_server:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("consistent_hash_server:app", host="0.0.0.0", port=9999, reload=True)
