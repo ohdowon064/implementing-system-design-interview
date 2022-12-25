@@ -81,3 +81,7 @@ class ConsistentHash:
 
     def _hash(self, key: Key) -> KeyHash:
         return KeyHash(md5(key.encode()).hexdigest())
+
+    @property
+    def number_of_nodes(self) -> int:
+        return len(self.nodes)
