@@ -10,13 +10,14 @@ from consistent_hash.consistent_hash import ConsistentHash, CacheServer, CacheIs
 app = FastAPI()
 
 
-async def get_cache_server(request: Request, key: str = Body()) -> CacheServer:
-    cache_servers = request.state.consistent_hash.get_node_by_key(key)
-    return cache_servers
-
-
 async def get_consistent_hash(request: Request) -> ConsistentHash:
-    return request.state.consistent_hash
+    return request.app.state.consistent_hash
+
+
+async def get_cache_server(key: str = Body(),
+                           consistent_hash: ConsistentHash = Depends(get_consistent_hash)) -> CacheServer:
+    cache_servers = consistent_hash.get_node_by_key(Key(key))
+    return cache_servers
 
 
 @app.on_event("startup")
