@@ -3,9 +3,9 @@ from abc import ABC, abstractmethod
 from hashlib import md5
 from typing import NewType, TypeVar
 
-KeyHash = NewType('KeyHash', str)
-Key = NewType('Key', str)
-Value = TypeVar('Value')
+KeyHash = NewType("KeyHash", str)
+Key = NewType("Key", str)
+Value = TypeVar("Value")
 
 
 class CacheIsFullException(Exception):
@@ -35,11 +35,10 @@ class CacheServer(Node):
         self.collection: dict[Key, Value] = {}
 
     def get(self, key: Key) -> Value:
-        result = self.collection.get(key, None)
-        if result is None:
+        value = self.collection.get(key, None)
+        if value is None:
             raise KeyDoesNotExistException("Key does not exist")
-        return result
-
+        return value
 
     def set(self, key: Key, value: Value) -> None:
         if len(self.collection) > 10:

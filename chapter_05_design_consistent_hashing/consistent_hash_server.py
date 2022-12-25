@@ -1,18 +1,12 @@
 # pylint: disable=import-error
-from fastapi import Body, Depends, FastAPI
+from fastapi import Depends, FastAPI
 from pydantic import BaseModel
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import Response
 
-from consistent_hash.consistent_hash import (
-    CacheIsFullException,
-    CacheServer,
-    ConsistentHash,
-    Key,
-    KeyDoesNotExistException,
-    Value,
-)
+from consistent_hash import (CacheIsFullException, CacheServer, ConsistentHash,
+                             Key, KeyDoesNotExistException, Value)
 
 app = FastAPI()
 
@@ -68,7 +62,7 @@ async def write(
     except CacheIsFullException:
         new_cache_server = CacheServer()
         consistent_hash.add_node(new_cache_server)
-        new_cache_server.set(Key(key), Value(request_body.value))
+        new_cache_server.set(Key(key), request_body.value)
 
     response.headers["X-CacheServer-Index"] = str(cache_server.id)
     response.headers["X-CacheServer-Count"] = str(consistent_hash.number_of_nodes)
