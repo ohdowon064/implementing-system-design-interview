@@ -8,6 +8,7 @@ packages = [{include = "chapter_05_design_consistent_hashing"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.88.0"}
 
 
 [build-system]
