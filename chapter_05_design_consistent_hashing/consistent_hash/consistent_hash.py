@@ -12,6 +12,10 @@ class CacheIsFullException(Exception):
     pass
 
 
+class KeyDoesNotExistException(Exception):
+    pass
+
+
 class Node(ABC):
     id: int
     collection: dict[Key, Value]
@@ -31,7 +35,11 @@ class CacheServer(Node):
         self.collection: dict[Key, Value] = {}
 
     def get(self, key: Key) -> Value:
-        return self.collection[key]
+        result = self.collection.get(key, None)
+        if result is None:
+            raise KeyDoesNotExistException("Key does not exist")
+        return result
+
 
     def set(self, key: Key, value: Value) -> None:
         if len(self.collection) > 10:
