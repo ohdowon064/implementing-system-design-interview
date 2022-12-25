@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "chapter-05-design-consistent-hashing"
+version = "0.1.0"
+description = ""
+authors = ["Dowon Oh <dhehdnjs03@gmail.com>"]
+readme = "README.md"
+packages = [{include = "chapter_05_design_consistent_hashing"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
