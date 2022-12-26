@@ -17,6 +17,10 @@ class KeyDoesNotExistException(Exception):
     pass
 
 
+class MaxNodesSizeException(Exception):
+    pass
+
+
 class Node(ABC):
     id: int
     collection: dict[Key, Value]
@@ -42,8 +46,8 @@ class CacheServer(Node):
             raise KeyDoesNotExistException("Key does not exist")
         return value
 
-    def set(self, key: Key, value: Value) -> None:
-        if len(self.collection) >= self._MAX_SIZE:
+    def set(self, key: Key, value: Value, force: bool = False) -> None:
+        if not force and len(self.collection) >= self._MAX_SIZE:
             raise CacheIsFullException("Cache is full")
 
         self.collection[key] = value
@@ -58,6 +62,7 @@ class ConsistentHash:
         self.virtual_nodes = virtual_nodes
         self.ring: dict[KeyHash, Node] = {}
         self._generate_ring()
+        self._MAX_SIZE = 5
 
     def _generate_ring(self):
         for node in self.nodes:
@@ -73,6 +78,8 @@ class ConsistentHash:
         return node
 
     def add_node(self, node: Node):
+        if len(self.nodes) >= self._MAX_SIZE:
+            raise MaxNodesSizeException("Max nodes size reached")
         self.nodes.append(node)
         self._generate_ring()
 

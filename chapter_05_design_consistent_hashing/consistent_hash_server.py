@@ -11,6 +11,7 @@ from consistent_hash import (
     ConsistentHash,
     Key,
     KeyDoesNotExistException,
+    MaxNodesSizeException,
 )
 
 app = FastAPI()
@@ -71,9 +72,14 @@ async def write(
     try:
         cache_server.set(Key(key), request_body.value)
     except CacheIsFullException:
+        print("Cache is full")
         new_cache_server = CacheServer()
-        consistent_hash.add_node(new_cache_server)
-        new_cache_server.set(Key(key), request_body.value)
+        try:
+            consistent_hash.add_node(new_cache_server)
+            new_cache_server.set(Key(key), request_body.value)
+        except MaxNodesSizeException:
+            print("Max nodes size reached")
+            cache_server.set(Key(key), request_body.value, force=True)
 
     response.headers["X-CacheServer-Index"] = str(cache_server.id)
     response.headers["X-CacheServer-Count"] = str(consistent_hash.number_of_nodes)
