@@ -1,8 +1,8 @@
-import time
 from abc import ABC, abstractmethod
 from collections import Counter
 from hashlib import md5
 from typing import NewType, TypeVar
+from uuid import uuid4
 
 KeyHash = NewType("KeyHash", str)
 Key = NewType("Key", str)
@@ -32,7 +32,7 @@ class Node(ABC):
 
 class CacheServer(Node):
     def __init__(self):
-        self.id = time.time_ns()
+        self.id = uuid4().int
         self.collection: dict[Key, Value] = {}
         self._MAX_SIZE = 10
 
@@ -89,6 +89,8 @@ class ConsistentHash:
         for _key_hash in key_hashes:
             if key_hash <= _key_hash:
                 return self.ring[_key_hash]
+
+        return self.ring[key_hashes[0]]
 
     def _hash(self, key: Key) -> KeyHash:
         return KeyHash(md5(key.encode()).hexdigest())
