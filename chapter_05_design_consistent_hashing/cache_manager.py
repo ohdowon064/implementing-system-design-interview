@@ -5,6 +5,7 @@ from pydantic import BaseModel
 class RequestResult(BaseModel):
     cache_server_index: int
     cache_server_count: int
+    cache_server_indexes: str
 
 
 class ReadResult(RequestResult):
@@ -22,6 +23,7 @@ class CacheManager:
         return ReadResult(
             cache_server_index=res.headers["X-CacheServer-Index"],
             cache_server_count=res.headers["X-CacheServer-Count"],
+            cache_server_indexes=res.headers["X-CacheServer-Indexes"],
             value=res.json()["value"],
         )
 
@@ -32,6 +34,7 @@ class CacheManager:
         return RequestResult(
             cache_server_index=res.headers["X-CacheServer-Index"],
             cache_server_count=res.headers["X-CacheServer-Count"],
+            cache_server_indexes=res.headers["X-CacheServer-Indexes"],
         )
 
 

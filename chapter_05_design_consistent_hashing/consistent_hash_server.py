@@ -44,6 +44,9 @@ async def read(
 ):
     response.headers["X-CacheServer-Index"] = str(cache_server.id)
     response.headers["X-CacheServer-Count"] = str(consistent_hash.number_of_nodes)
+    response.headers["X-CacheServer-Indexes"] = ",".join(
+        map(str, consistent_hash.node_ids)
+    )
 
     try:
         value = cache_server.get(Key(key))
@@ -71,6 +74,9 @@ async def write(
 
     response.headers["X-CacheServer-Index"] = str(cache_server.id)
     response.headers["X-CacheServer-Count"] = str(consistent_hash.number_of_nodes)
+    response.headers["X-CacheServer-Indexes"] = ",".join(
+        map(str, consistent_hash.node_ids)
+    )
 
 
 if __name__ == "__main__":
