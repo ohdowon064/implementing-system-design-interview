@@ -32,7 +32,7 @@ $ poetry install
 ## How To Run
 ```bash
 $ uvicorn consistent_hash_server:app --reload --port 9999
-$ uvicorn api_server:app --reload --port 8000
+$ uvicorn forward_server:app --reload --port 8000
 ```
 실행 화면은 다음과 같습니다.
 ```bash
@@ -67,8 +67,31 @@ graph LR
     fs --> ch .-> fs
     fs .-> c
 ```
+앞단 서버와 캐시 서버 중간의 Consistent Hashing 로드밸런서 서버를 구현했습니다.
 
-### 실제 서비스 아키텍처
+### Project Architecture
+```mermaid
+graph LR
+    subgraph External
+        c[Client]
+        fs[Forward Server]
+    end
+
+    subgraph Consistent Hash
+        ch[Consistent Hashing]
+        cs[Cache Server]
+    end
+    
+    c -- "1. Request" --> fs
+    fs -- "2. Read/Write Cache Data" --> ch
+    ch -- "3. Determine Cache Server with Consistent Hash Ring" --> ch
+    ch -- "4. Read or Write" --> cs -. "5. Return Result" .-> ch
+    ch -- "6. Response(Read/Write) Cache Data" --> fs
+    fs -- "7. Successful Response with Headers" --> c
+```
+
+## Limitations
+### Real Service Architecture
 ```mermaid
 graph LR
     subgraph Cloud Network
@@ -111,28 +134,15 @@ graph LR
     ch -. "12. Response(Read/Write) Redis Data" .-> fs
     fs -. "13. Successful Response with Headers" .-> c
 ```
-
-### 프로젝트 아키텍처
-```mermaid
-graph LR
-    subgraph External
-        c[Client]
-        fs[Forward Server]
-    end
-
-    subgraph Consistent Hash
-        ch[Consistent Hashing]
-        cs[Cache Server]
-    end
-    
-    c -- "1. Request" --> fs
-    fs -- "2. Read/Write Cache Data" --> ch
-    ch -- "3. Determine Cache Server with Consistent Hash Ring" --> ch
-    ch -- "4. Read or Write" --> cs -. "5. Return Result" .-> ch
-    ch -- "6. Response(Read/Write) Cache Data" --> fs
-    fs -- "7. Successful Response with Headers" --> c
-```
+이 프로젝트에서는 단순히 Consistent Hashing 로드밸런서를 구현했습니다. 따라서 Python Dictionary 자료구조로 구현된 변수가 캐시서버를 상징합니다.
+하지만 실제 서비스에서는 위와 같은 구조를 가집니다. 실제 서비스 레벨에서는 캐시 서버는 로드밸런서 바깥에 존재하고, 
+인프라 관리시스템이 해당 캐시서버를 스케일 인/아웃하는 것을 로드밸런서에서 관찰할 것입니다. 캐시서버 수의 변화가 생기면 로드밸런서는 캐시 링을 업데이트합니다.
 
 ## 테스트 실행 방법
 
+
 ## 참고
+- [[우아한테크세미나] 191121 우아한레디스 by 강대명님](https://www.youtube.com/watch?v=mPB2CZiAkKM)
+- [Consistent hashing에 관한 블로그글 1](https://www.joinc.co.kr/w/man/12/hash/consistent)
+- [Consistent hashing에 관한 블로그글 2](https://binux.tistory.com/119)
+- [위키피디아 - 일관된 해싱](https://ko.wikipedia.org/wiki/%EC%9D%BC%EA%B4%80%EB%90%9C_%ED%95%B4%EC%8B%B1)
