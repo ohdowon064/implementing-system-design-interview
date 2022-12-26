@@ -49,6 +49,7 @@ async def read(
     response.headers["X-CacheServer-Indexes"] = ",".join(
         map(str, consistent_hash.node_ids)
     )
+    response.headers["X-Ring-Distribution"] = ",".join(consistent_hash.ring_info)
 
     try:
         value = cache_server.get(Key(key))
@@ -79,6 +80,7 @@ async def write(
     response.headers["X-CacheServer-Indexes"] = ",".join(
         map(str, consistent_hash.node_ids)
     )
+    response.headers["X-Ring-Distribution"] = ",".join(consistent_hash.ring_info)
 
 
 if __name__ == "__main__":

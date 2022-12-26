@@ -23,6 +23,7 @@ async def read(response: Response, key: str):
     response.headers["X-CacheServer-Index"] = str(result.cache_server_index)
     response.headers["X-CacheServer-Count"] = str(result.cache_server_count)
     response.headers["X-CacheServer-Indexes"] = result.cache_server_indexes
+    response.headers["X-Ring-Distribution"] = result.ring_distribution
     return result.dict(include={"value"})
 
 
@@ -36,6 +37,7 @@ async def write(response: Response, key: str, request_body: WriteRequest):
     response.headers["X-CacheServer-Index"] = str(result.cache_server_index)
     response.headers["X-CacheServer-Count"] = str(result.cache_server_count)
     response.headers["X-CacheServer-Indexes"] = result.cache_server_indexes
+    response.headers["X-Ring-Distribution"] = result.ring_distribution
     return {"message": "Value set."}
 
 
