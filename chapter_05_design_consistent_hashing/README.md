@@ -140,6 +140,21 @@ graph LR
 하지만 실제 서비스에서는 위와 같은 구조를 가집니다. 실제 서비스 레벨에서는 캐시 서버는 로드밸런서 바깥에 존재하고, 
 인프라 관리시스템이 해당 캐시서버를 스케일 인/아웃하는 것을 로드밸런서에서 관찰할 것입니다. 캐시서버 수의 변화가 생기면 로드밸런서는 캐시 링을 업데이트합니다.
 
+## Code Structure
+```bash
+$ tree . tree -I __pycache__
+.
+├── README.md
+├── __init__.py
+├── cache_manager.py
+├── consistent_hash.py
+├── consistent_hash_server.py
+├── forward_server.py
+├── poetry.lock
+├── pyproject.toml
+└── test.py
+```
+
 ## 테스트 실행 방법
 
 
