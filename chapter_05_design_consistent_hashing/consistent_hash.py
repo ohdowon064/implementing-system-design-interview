@@ -95,3 +95,7 @@ class ConsistentHash:
     @property
     def number_of_nodes(self) -> int:
         return len(self.nodes)
+
+    @property
+    def node_ids(self) -> list[int]:
+        return [node.id for node in self.nodes]
