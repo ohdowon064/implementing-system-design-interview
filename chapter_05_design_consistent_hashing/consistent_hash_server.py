@@ -32,7 +32,9 @@ class WriteRequest(BaseModel):
 
 @app.on_event("startup")
 async def startup():
-    app.state.consistent_hash = ConsistentHash([CacheServer()])
+    app.state.consistent_hash = ConsistentHash(
+        [CacheServer(), CacheServer(), CacheServer()]
+    )
 
 
 @app.get("/{key}", status_code=status.HTTP_200_OK)
