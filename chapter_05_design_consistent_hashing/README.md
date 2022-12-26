@@ -1,4 +1,18 @@
+## 실행
+```bash
+$ pip install poetry
+$ poetry shell
+$ poetry install
+```
+
+```bash
+$ uvicorn consistent_hash_server:app --reload --port 9999
+$ uvicorn api_server:app --reload --port 8000
+```
+
 ## 아키텍처
+
+### 실제 서비스 아키텍처
 ```mermaid
 graph LR
     subgraph Cloud Network
@@ -40,6 +54,27 @@ graph LR
     ch -- "10. Read or Write" --> ri -. "11. Return Result" .-> ch  
     ch -. "12. Response(Read/Write) Redis Data" .-> fs
     fs -. "13. Successful Response with Headers" .-> c
+```
+
+### 프로젝트 아키텍처
+```mermaid
+graph LR
+    subgraph External
+        c[Client]
+        fs[Forward Server]
+    end
+
+    subgraph Consistent Hash
+        ch[Consistent Hashing]
+        cs[Cache Server]
+    end
+    
+    c -- "1. Request" --> fs
+    fs -- "2. Read/Write Cache Data" --> ch
+    ch -- "3. Determine Cache Server with Consistent Hash Ring" --> ch
+    ch -- "4. Read or Write" --> cs -. "5. Return Result" .-> ch
+    ch -- "6. Response(Read/Write) Cache Data" --> fs
+    fs -- "7. Successful Response with Headers" --> c
 ```
 
 ## 테스트 실행 방법
