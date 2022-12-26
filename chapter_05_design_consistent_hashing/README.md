@@ -177,3 +177,7 @@ $ python test.py
 - [Consistent hashing에 관한 블로그글 1](https://www.joinc.co.kr/w/man/12/hash/consistent)
 - [Consistent hashing에 관한 블로그글 2](https://binux.tistory.com/119)
 - [위키피디아 - 일관된 해싱](https://ko.wikipedia.org/wiki/%EC%9D%BC%EA%B4%80%EB%90%9C_%ED%95%B4%EC%8B%B1)
+
+## To Do list
+- [ ] 모듈로 로드밸런서를 만들어서 에러히트 비교해보기
+- [ ] 실제 캐시서버를 연결해서 사용해보기
