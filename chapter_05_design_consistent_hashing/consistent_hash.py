@@ -1,5 +1,6 @@
 import time
 from abc import ABC, abstractmethod
+from collections import Counter
 from hashlib import md5
 from typing import NewType, TypeVar
 
@@ -99,3 +100,8 @@ class ConsistentHash:
     @property
     def node_ids(self) -> list[int]:
         return [node.id for node in self.nodes]
+
+    @property
+    def ring_info(self) -> list[str]:
+        counter = Counter(self.ring.values())
+        return [f"{node.id}:{counter[node]}" for node in self.nodes]
