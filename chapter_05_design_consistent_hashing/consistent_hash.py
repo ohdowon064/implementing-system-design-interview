@@ -57,12 +57,12 @@ class CacheServer(Node):
 
 
 class ConsistentHash:
-    def __init__(self, nodes: list[Node], virtual_nodes: int = 100):
+    def __init__(self, nodes: list[Node], virtual_nodes: int = 2000):
         self.nodes = nodes
         self.virtual_nodes = virtual_nodes
         self.ring: dict[KeyHash, Node] = {}
         self._generate_ring()
-        self._MAX_SIZE = 5
+        self._MAX_SIZE = 3
 
     def _generate_ring(self):
         for node in self.nodes:
@@ -77,6 +77,16 @@ class ConsistentHash:
         node = self._get_node_by_key_hash(key_hash)
         return node
 
+    def _get_node_by_key_hash(self, user_key_hash: KeyHash) -> Node:
+        key_hashes = sorted(self.ring.keys())
+
+        if user_key_hash > key_hashes[-1]:
+            return self.ring[key_hashes[0]]
+
+        for _key_hash in key_hashes:
+            if user_key_hash <= _key_hash:
+                return self.ring[_key_hash]
+
     def add_node(self, node: Node):
         if len(self.nodes) >= self._MAX_SIZE:
             raise MaxNodesSizeException("Max nodes size reached")
@@ -86,16 +96,6 @@ class ConsistentHash:
     def remove_node(self, node: Node):
         self.nodes.remove(node)
         self._generate_ring()
-
-    def _get_node_by_key_hash(self, key_hash: KeyHash) -> Node:
-        key_hashes = sorted(self.ring.keys())
-
-        if key_hash > key_hashes[-1]:
-            return self.ring[key_hashes[0]]
-
-        for _key_hash in key_hashes:
-            if key_hash <= _key_hash:
-                return self.ring[_key_hash]
 
     def _hash(self, key: Key) -> KeyHash:
         return KeyHash(md5(key.encode()).hexdigest())

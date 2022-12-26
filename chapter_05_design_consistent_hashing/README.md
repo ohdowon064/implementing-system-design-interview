@@ -181,3 +181,16 @@ $ python test.py
 ## To Do list
 - [ ] 모듈로 로드밸런서를 만들어서 에러히트 비교해보기
 - [ ] 실제 캐시서버를 연결해서 사용해보기
+- [ ] Consistent Hashing 알고리즘 자세하게 README에 작성하기
+- [ ] get_node_by_key 부분을 binary search로 구현해보기
+- [ ] node가 추가되거나 삭제될 때만 캐시링 정렬하기
+  - get_node_by_key에서 sort 없애기
+
+## Q&A
+- 캐시로드밸런서를 사용하면 실제 캐시서버의 문법을 사용하지 않고 api 요청하는 방식으로 구현되는 것 아닌가?
+  - 캐시로드밸런서를 라이브러리로 감싸서 제공하거나 api 요청방식 그대로 사용해도 된다.
+- Python 메서드 순서
+  1. property, public, private
+  2. property, 서로 호출하거나 유사한 함수끼리 묶음.
+- 캐시 재배치가 있지않는 이상 에러히트가 발생하면 안되는 것 아닌가?
+  - 맞음.
