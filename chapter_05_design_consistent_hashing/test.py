@@ -32,6 +32,7 @@ def test_ring_distribution():
             indexes[index] += 1
         else:
             error_count += 1
+            print(res.headers)
 
     print(indexes.values())
     print(error_count)
