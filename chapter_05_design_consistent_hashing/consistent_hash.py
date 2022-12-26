@@ -97,8 +97,6 @@ class ConsistentHash:
             if key_hash <= _key_hash:
                 return self.ring[_key_hash]
 
-        return self.ring[key_hashes[0]]
-
     def _hash(self, key: Key) -> KeyHash:
         return KeyHash(md5(key.encode()).hexdigest())
 
