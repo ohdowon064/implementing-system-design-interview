@@ -10,7 +10,7 @@ class RequestResult(BaseModel):
 
 
 class ReadResult(RequestResult):
-    value: str
+    value: str | None
 
 
 class CacheManager:
@@ -19,15 +19,16 @@ class CacheManager:
 
     def read(self, key: str) -> ReadResult:
         res = requests.get(f"{self._SERVER_ADDR}/{key}", timeout=3)
-        if res.status_code == 404:
-            raise KeyError("Key does not exist")
-        return ReadResult(
+        result = ReadResult(
             cache_server_index=res.headers["X-CacheServer-Index"],
             cache_server_count=res.headers["X-CacheServer-Count"],
             cache_server_indexes=res.headers["X-CacheServer-Indexes"],
             ring_distribution=res.headers["X-Ring-Distribution"],
-            value=res.json()["value"],
         )
+        if res.status_code == 200:
+            result.value = res.json()["value"]
+            return result
+        return result
 
     def set(self, key: str, value: str) -> RequestResult:
         res = requests.post(

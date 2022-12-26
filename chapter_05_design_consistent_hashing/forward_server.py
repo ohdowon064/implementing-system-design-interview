@@ -24,7 +24,10 @@ async def read(response: Response, key: str):
     response.headers["X-CacheServer-Count"] = str(result.cache_server_count)
     response.headers["X-CacheServer-Indexes"] = result.cache_server_indexes
     response.headers["X-Ring-Distribution"] = result.ring_distribution
-    return result.dict(include={"value"})
+    if result.value is None:
+        response.status_code = 404
+    else:
+        return result.dict(include={"value"})
 
 
 class WriteRequest(BaseModel):
