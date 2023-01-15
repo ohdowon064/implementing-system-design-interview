@@ -22,9 +22,10 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# chapter_06_design_a_key_value_store
+## Tech Specs
+### Goal
+챕터 6의 가상 노드 기반의 Key/Value 저장소를 구현하는 것이 목표입니다.
 
 ## Installation
 
@@ -60,6 +61,46 @@ graph LR
     client .-> eu
 ```
 앞단 엔트리포인트인 클라이언트와 노드 중재자(coordinator)를 구현했습니다.
+
+### Put(Key, Value) Sequence
+```mermaid
+sequenceDiagram
+participant eu as End User
+participant cl as Client
+participant co as Coordincator
+participant r as Hash Ring
+participant n as Node
+
+eu->>cl: request put(key, value)
+
+cl->>co: request put(key, value)
+co->>r: find node by key
+r-->>co: node
+co->>n: put(key, value)
+
+cl-->>eu: response 201
+```
+
+### Get(Key) Sequence
+```mermaid
+sequenceDiagram
+participant eu as End User
+participant cl as Client
+participant co as Coordincator
+participant r as Hash Ring
+participant n as Node
+
+eu->>cl: request get(key)
+
+cl->>co: request get(key)
+co->>r: find node by key
+r-->>co: node
+co->>n: get(key)
+n-->>co: value
+co-->>cl: response value
+
+cl-->>eu: response value with 200
+```
 
 ## Code Structure
 ```bash
