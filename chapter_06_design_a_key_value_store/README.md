@@ -45,6 +45,54 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## System Design
+### Concept
+```mermaid
+graph LR
+    eu[EndUser]
+    subgraph KeyValue Store Project
+        client[Database Client EntryPoint]
+        coordinator[Nodes Coordinator]    
+    end
+    
+    eu --> client
+    client --> coordinator .-> client
+    client .-> eu
+```
+앞단 엔트리포인트인 클라이언트와 노드 중재자(coordinator)를 구현했습니다.
+
+## Code Structure
+```bash
+tree . tree -I node_modules -I dist 
+.
+├── README.md
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── src
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   ├── client
+│   │   ├── client.controller.ts
+│   │   ├── client.module.ts
+│   │   └── client.service.ts
+│   ├── coordinator
+│   │   ├── consistentHash.ts
+│   │   ├── coordinator.controller.ts
+│   │   ├── coordinator.module.ts
+│   │   ├── coordinator.service.ts
+│   │   └── put-value.dto.ts
+│   └── main.ts
+├── test
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
+├── tsconfig.build.json
+└── tsconfig.json
+tree
+[1]    16705 segmentation fault  tree . tree -I node_modules -I dist
+```
+
 ## Test
 
 ```bash
@@ -53,9 +101,6 @@ $ npm run test
 
 # e2e tests
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Support
