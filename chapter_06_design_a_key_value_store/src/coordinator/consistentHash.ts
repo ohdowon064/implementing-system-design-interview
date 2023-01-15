@@ -13,21 +13,19 @@ export class Node {
 
   get(key: string): string {
     const value = this.collection.get(key);
-    if (!value) {
-      throw new Error('Key not found');
-    }
     return value;
   }
 }
 
 export class ConsistentHash {
-  private ring: Map<number, Node>;
+  public ring: Map<number, Node>;
   private nodes: Node[];
-  private numberOfVirtualsPerNode = 100;
+  private numberOfVirtualsPerNode = 10;
 
   constructor(nodes: Node[]) {
     this.nodes = nodes;
     this.ring = new Map<number, Node>();
+    this.generateRing();
   }
 
   generateRing(): void {
@@ -42,7 +40,11 @@ export class ConsistentHash {
   findNodeByKey(key: string): Node {
     const hash = this.hash(key);
     const keys = Array.from(this.ring.keys());
+    console.log(hash);
     const index = keys.findIndex((value) => value >= hash);
+    if (index === -1) {
+      return this.ring.get(keys[0]);
+    }
     return this.ring.get(keys[index]);
   }
 

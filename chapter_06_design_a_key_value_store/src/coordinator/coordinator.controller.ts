@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CoordinatorService } from './coordinator.service';
+import { PutValueDto } from './put-value.dto';
 
 @Controller('coordinator')
 export class CoordinatorController {
@@ -11,7 +12,9 @@ export class CoordinatorController {
   }
 
   @Post(':key')
-  putValue(@Param('key') key: string, @Body() value: string): void {
-    this.coordinatorService.put(key, value);
+  putValue(@Param('key') key: string, @Body() body: PutValueDto): void {
+    console.log('coordinator put 호출됨');
+    console.log(body);
+    this.coordinatorService.put(key, body.value);
   }
 }
