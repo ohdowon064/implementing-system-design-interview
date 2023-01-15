@@ -7,7 +7,6 @@ export class ClientService {
 
   async put(key: string, value: string): Promise<void> {
     const body = { value: value };
-    console.log(body);
     await this.httpService
       .post(`http://localhost:3000/coordinator/${key}`, body)
       .toPromise();

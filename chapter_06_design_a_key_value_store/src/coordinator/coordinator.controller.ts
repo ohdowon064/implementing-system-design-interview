@@ -13,8 +13,6 @@ export class CoordinatorController {
 
   @Post(':key')
   putValue(@Param('key') key: string, @Body() body: PutValueDto): void {
-    console.log('coordinator put 호출됨');
-    console.log(body);
     this.coordinatorService.put(key, body.value);
   }
 }

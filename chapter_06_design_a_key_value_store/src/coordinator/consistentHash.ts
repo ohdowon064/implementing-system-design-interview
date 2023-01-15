@@ -40,7 +40,6 @@ export class ConsistentHash {
   findNodeByKey(key: string): Node {
     const hash = this.hash(key);
     const keys = Array.from(this.ring.keys());
-    console.log(hash);
     const index = keys.findIndex((value) => value >= hash);
     if (index === -1) {
       return this.ring.get(keys[0]);

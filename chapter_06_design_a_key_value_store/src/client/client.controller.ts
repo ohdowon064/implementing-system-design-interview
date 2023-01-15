@@ -8,8 +8,6 @@ export class ClientController {
 
   @Post('put/:key')
   async putValue(@Param('key') key: string, @Body() body: PutValueDto) {
-    console.log('client put 호출됨');
-    console.log(body.value);
     await this.clientService.put(key, body.value);
   }
 
