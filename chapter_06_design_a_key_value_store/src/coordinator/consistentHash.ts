@@ -1,18 +1,22 @@
-class Node {
+export class Node {
   id: number;
-  collection: Map<number, string>;
+  collection: Map<string, string>;
 
   constructor(id: number) {
     this.id = id;
-    this.collection = new Map<number, string>();
+    this.collection = new Map<string, string>();
   }
 
-  put(key: number, value: string) {
+  put(key: string, value: string): void {
     this.collection.set(key, value);
   }
 
-  get(key: number) {
-    return this.collection.get(key);
+  get(key: string): string {
+    const value = this.collection.get(key);
+    if (!value) {
+      throw new Error('Key not found');
+    }
+    return value;
   }
 }
 
