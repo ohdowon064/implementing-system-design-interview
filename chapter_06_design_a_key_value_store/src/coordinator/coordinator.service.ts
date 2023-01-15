@@ -12,7 +12,6 @@ export class CoordinatorService {
 
   get(key: string): string {
     const node = this.consistentHash.findNodeByKey(key);
-    console.log(node);
     const value = node.get(key);
     if (value === undefined) {
       return null;
@@ -21,7 +20,7 @@ export class CoordinatorService {
   }
 
   removeNode(id: number) {
-    const node = this.nodes.find((value) => value.id === id);
+    const node = this.nodes.find((node) => node.id === id);
     this.consistentHash.removeNode(node);
   }
 

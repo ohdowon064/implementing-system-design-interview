@@ -20,7 +20,7 @@ export class Node {
 export class ConsistentHash {
   public ring: Map<number, Node>;
   private nodes: Node[];
-  private numberOfVirtualsPerNode = 10;
+  private numberOfVirtualsPerNode = 1000;
 
   constructor(nodes: Node[]) {
     this.nodes = nodes;
@@ -61,7 +61,7 @@ export class ConsistentHash {
     let hash = 0;
     for (let i = 0; i < key.length; i++) {
       hash = (hash << 5) - hash + key.charCodeAt(i);
-      hash &= hash;
+      hash |= 0;
     }
     return hash;
   }

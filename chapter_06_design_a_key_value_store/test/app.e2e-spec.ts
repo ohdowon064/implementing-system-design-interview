@@ -15,13 +15,6 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
-
   describe('/client', () => {
     it('/put/:key (POST)', () => {
       return request(app.getHttpServer())
@@ -34,6 +27,9 @@ describe('AppController (e2e)', () => {
         .get('/client/get/key1')
         .expect(200)
         .expect('test');
+    });
+    it('/get/:key (GET 404)', () => {
+      return request(app.getHttpServer()).get('/client/get/key999').expect(404);
     });
   });
 
