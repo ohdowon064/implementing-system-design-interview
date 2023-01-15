@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ClientService } from './client.service';
-import { PutValueDto } from 'src/coordinator/put-value.dto';
+import { PutValueDto } from '../coordinator/put-value.dto';
 
 @Controller('client')
 export class ClientController {

@@ -12,10 +12,23 @@ export class CoordinatorService {
 
   get(key: string): string {
     const node = this.consistentHash.findNodeByKey(key);
+    console.log(node);
     const value = node.get(key);
     if (value === undefined) {
       return null;
     }
     return value;
+  }
+
+  removeNode(id: number) {
+    const node = this.nodes.find((value) => value.id === id);
+    this.consistentHash.removeNode(node);
+  }
+
+  addNode() {
+    const id = this.nodes.length + 1;
+    const node = new Node(id);
+    this.nodes.push(node);
+    this.consistentHash.addNode(node);
   }
 }
