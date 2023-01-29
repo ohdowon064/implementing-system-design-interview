@@ -1,5 +1,8 @@
 import {randomBytes} from "crypto";
 import Mutex from "./mutex";
+import cluster from "cluster";
+const numCPUs = require('os').cpus().length;
+
 
 function getCounter() {
     return Math.floor(Math.random() * (0xFFFFFF + 1));
@@ -52,11 +55,34 @@ class ObjectID {
     }
 }
 
+// test unique
+console.log("테스트 유니크")
 const start = Date.now();
-const ids = new Array<string>();
+const arrayIds = new Array<string>();
+const setIds = new Set<string>();
 while (Date.now() - start < 100) {
-    ids.push(new ObjectID().toString());
+    const id = new ObjectID().toString();
+    arrayIds.push(id);
+    setIds.add(id);
 }
-console.log(ids.length);
-console.log(ids.filter((value, index, self) => self.indexOf(value) === index).length === ids.length);
+console.log(arrayIds.length);
+console.log(arrayIds.length === setIds.size);
+
+// test multiprocessing
+console.log("테스트 멀티프로세싱");
+const arrayIds2 = new Array<string>();
+const setIds2 = new Set<string>();
+
+if (cluster.isMaster) {
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+} else {
+    const id = new ObjectID().toString();
+    arrayIds2.push(id);
+    setIds2.add(id);
+}
+
+console.log(arrayIds2.length === setIds2.size);
+
 export default ObjectID;
