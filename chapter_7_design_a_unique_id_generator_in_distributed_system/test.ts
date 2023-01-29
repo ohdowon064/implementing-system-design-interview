@@ -8,7 +8,7 @@ console.log("테스트 유니크")
 const start = Date.now();
 const arrayIds = new Array<string>();
 const setIds = new Set<string>();
-while (Date.now() - start < 100) {
+while (Date.now() - start < 1000) {
     const id = new ObjectID().toString();
     arrayIds.push(id);
     setIds.add(id);

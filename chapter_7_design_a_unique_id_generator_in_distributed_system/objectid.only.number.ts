@@ -11,7 +11,7 @@ class ObjectID {
     private static pid = process.pid;
     private static rand = randomBytes(5);
     private static inc = getCounter();
-    private static mutex = new Mutex();
+    // private static mutex = new Mutex();
 
     private getProcessRandom(): Buffer {
         const pid = process.pid;

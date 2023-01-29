@@ -19,9 +19,9 @@ $ npm install
 ```
 
 ## System Design
-- 타임스탬프: Unix 에포크 이후 초 단위로 측정된 ObjectId 생성을 나타내는 4바이트 타임스탬프입니다.
-- 랜덤: 프로세스당 한 번 생성되는 5바이트임의 값입니다. 이 무작위 값은 기계와 프로세스에 고유합니다.
-- 카운터: 임의의 값으로 초기화되는 3바이트 증분 카운터입니다.
+- 타임스탬프(4bts): Unix 에포크 이후 초 단위로 측정된 ObjectId 생성을 나타내는 4바이트 타임스탬프입니다.
+- 랜덤(5bits): 프로세스당 한 번 생성되는 5바이트임의 값입니다. 이 무작위 값은 기계와 프로세스에 고유합니다.
+- 카운터(3bits): 임의의 값으로 초기화되는 3바이트 증분 카운터입니다.
 
 ## Code Structure
 ```bash
@@ -53,3 +53,6 @@ $ ts-node objectid.only.number.ts
 - mongodb objectid: https://www.mongodb.com/docs/manual/reference/method/ObjectId/
 - js-mutex: https://velog.io/@johnsuhr4542/JS-Mutex-%EC%82%AC%EC%9A%A9
 - multiprocessing: https://yogae.tistory.com/34
+
+# 아쉬운 점
+- bit 연산으로 8bytes 맞춰서 구현해보기
