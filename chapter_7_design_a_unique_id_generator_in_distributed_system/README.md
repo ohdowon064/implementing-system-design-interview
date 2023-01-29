@@ -3,7 +3,7 @@
 ### Goal
 분산 시스템을 위한 유일 ID 생성기 설계
 
-## Requirements
+### Requirements
 - ID는 유일해야 한다
 - ID는 숫자로만 구성되어야 한다
 - ID는 64비트로 표현될 수 있는 값이어야 한다
@@ -18,7 +18,7 @@
 $ npm install
 ```
 
-# System Design
+## System Design
 - 타임스탬프: Unix 에포크 이후 초 단위로 측정된 ObjectId 생성을 나타내는 4바이트 타임스탬프입니다.
 - 랜덤: 프로세스당 한 번 생성되는 5바이트임의 값입니다. 이 무작위 값은 기계와 프로세스에 고유합니다.
 - 카운터: 임의의 값으로 초기화되는 3바이트 증분 카운터입니다.
@@ -50,6 +50,6 @@ $ ts-node objectid.only.number.ts
 # Reference
 - random bytes: https://dirask.com/posts/TypeScript-random-bytes-139LYp
 - thread locking: https://www.npmjs.com/package/async-lock
-- objectid: https://www.mongodb.com/docs/manual/reference/method/ObjectId/
+- mongodb objectid: https://www.mongodb.com/docs/manual/reference/method/ObjectId/
 - js-mutex: https://velog.io/@johnsuhr4542/JS-Mutex-%EC%82%AC%EC%9A%A9
 - multiprocessing: https://yogae.tistory.com/34

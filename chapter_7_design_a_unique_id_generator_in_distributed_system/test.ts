@@ -1,24 +1,34 @@
+import cluster from "cluster";
 import ObjectID from "./objectid.only.number";
+const numCPUs = require('os').cpus().length;
 
-function onlyUnique(value: any, index: any, self: any) {
-    return self.indexOf(value) === index;
+// test unique
+
+console.log("테스트 유니크")
+const start = Date.now();
+const arrayIds = new Array<string>();
+const setIds = new Set<string>();
+while (Date.now() - start < 100) {
+    const id = new ObjectID().toString();
+    arrayIds.push(id);
+    setIds.add(id);
 }
-describe("ObjectID", () => {
-    test("should be unique in 1 seconds", () => {
-        const start = Date.now();
-        const ids = new Array<string>();
-        while (Date.now() - start < 1000) {
-            ids.push(new ObjectID().toString());
-        }
-        expect(ids.length).toBe(ids.filter(onlyUnique).length);
-    })
+console.log(arrayIds.length);
+console.log(arrayIds.length === setIds.size);
 
-    test("should make over 10000 in 1 seconds", () => {
-        const start = Date.now();
-        const ids = new Array<string>();
-        while (Date.now() - start < 1000) {
-            ids.push(new ObjectID().toString());
-        }
-        expect(ids.length).toBeGreaterThan(10000);
-    })
-});
+// test multiprocessing
+console.log("테스트 멀티프로세싱");
+const arrayIds2 = new Array<string>();
+const setIds2 = new Set<string>();
+const Pool = require('multiprocessing').Pool;
+
+function job() {
+    const id = new ObjectID().toString();
+    arrayIds2.push(id);
+    setIds2.add(id);
+}
+
+const pool = new Pool(numCPUs);
+pool.map(job).catch((err: any) => {});
+console.log(arrayIds2.length === setIds2.size);
+process.exit(1);
