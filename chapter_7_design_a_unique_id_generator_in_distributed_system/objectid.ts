@@ -1,12 +1,13 @@
 import {randomBytes} from "crypto";
-import AsyncLock = require("async-lock");
+// @ts-ignore
+import AsyncLock from "async-lock";
 
 function getCounter() {
     return Math.floor(Math.random() * (0xFFFFFF + 1));
 }
 
 class ObjectID{
-    private id: string;
+    private readonly id: string;
     private static pid = process.pid;
     private static rand = randomBytes(5);
     private static inc = getCounter();
@@ -43,12 +44,18 @@ class ObjectID{
 
         let objectId = `${timestamp}${random}`;
 
-        ObjectID.lock.acquire("inc", (done) => {
+        ObjectID.lock.acquire("inc", (done: any) => {
             objectId += this.getCounterPart();
             ObjectID.increment();
         });
-
         this.id = objectId;
     }
 
+    public toString(): string {
+        return this.id;
+    }
+
+    public equals(other: ObjectID): boolean {
+        return this.id === other.id;
+    }
 }
