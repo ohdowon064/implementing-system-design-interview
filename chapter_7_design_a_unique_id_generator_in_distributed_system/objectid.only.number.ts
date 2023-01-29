@@ -52,6 +52,11 @@ class ObjectID {
     }
 }
 
-for(let i = 0; i < 100; i++) {
-    console.log(new ObjectID())
+const start = Date.now();
+const ids = new Array<string>();
+while (Date.now() - start < 100) {
+    ids.push(new ObjectID().toString());
 }
+console.log(ids.length);
+console.log(ids.filter((value, index, self) => self.indexOf(value) === index).length === ids.length);
+export default ObjectID;
